@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="self_balance_robot.ino" />
+    <None Include="I2C.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.self_balance_robot.vsarduino.h">
