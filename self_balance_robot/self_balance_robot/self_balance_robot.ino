@@ -33,25 +33,14 @@ unsigned long debutTimewrite = 0;
 unsigned long timeread = 10000;
 unsigned long timewrite = 10;
 
-bool elapsed(unsigned long *previousMillis, unsigned long interval) {
-	if (*previousMillis == 0) {
-		*previousMillis = micros();
-	}
-	else {
-		if ((unsigned long)(micros() - *previousMillis) >= interval) {
-			*previousMillis = 0;
-			return true;
-		}
-	}
-	return false;
-}
+
 void setup() {
 	
 	Serial.begin(115200);
 	Wire.begin();
 	
 	/* Set kalman and gyro starting angle */
-	while (i2cRead(0x3B, i2cData, 6));
+	/*while (i2cRead(0x3B, i2cData, 6));
 	accX = (int16_t)((i2cData[0] << 8) | i2cData[1]);
 	accY = (int16_t)((i2cData[2] << 8) | i2cData[3]);
 	accZ = (int16_t)((i2cData[4] << 8) | i2cData[5]);
@@ -59,13 +48,21 @@ void setup() {
 	kalmanX.setAngle(roll); // Set starting angle
 	gyroXangle = roll;
 	timer = micros();
-	
+	*/
+	Serial.print("START");
 }
 
 void loop() {
-	//if (elapsed(&debutTimeread, timeread)) {
+
+	PORTB &= 0b11110001;
+	PORTD |= 0b01000000;
+	PORTB |= 0b00010000;
+	delayMicroseconds(500);
+	PORTD &= 0b10111111; ;
+	PORTB &= 0b11101111;
+	delayMicroseconds(500);
 		/* Update all the values */
-		while (i2cRead(0x3B, i2cData, 14));
+	/*	while (i2cRead(0x3B, i2cData, 14));
 		accX = (int16_t)((i2cData[0] << 8) | i2cData[1]);
 		accY = (int16_t)((i2cData[2] << 8) | i2cData[3]);
 		accZ = (int16_t)((i2cData[4] << 8) | i2cData[5]);
@@ -94,10 +91,8 @@ void loop() {
 	if (gyroXangle < -180 || gyroXangle > 180)
 		gyroXangle = kalAngleX;
 
-	//}
-	if (elapsed(&debutTimewrite, timewrite)) {
-		digitalWrite(12, !digitalRead(12));
-	}
+	
+	
 	//Serial.print(roll); Serial.print("\t");
 	//Serial.print(gyroXangle); Serial.print("\t");
 	//Serial.print(kalAngleX); Serial.print("\t");
@@ -105,5 +100,5 @@ void loop() {
 
 
 	//Serial.print("\r\n");
-	//delay(20);
+	//delay(20);*/
 }
